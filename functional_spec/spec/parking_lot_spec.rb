@@ -28,7 +28,16 @@ RSpec.describe 'Parking Lot' do
     run_command(pty, "park KA-01-HH-3141 Black\n")
     expect(fetch_stdout(pty)).to end_with("Allocated slot number: 1\n")
   end
-  
+
+  it "can reject parking a car if parking lot is full" do
+    run_command(pty, "park KA-01-HH-1234 White\n")
+    run_command(pty, "park KA-01-HH-3141 Black\n")
+    run_command(pty, "park KA-01-HH-9999 White\n")
+    run_command(pty, "park KA-01-BB-0001 Black\n")
+
+    expect(fetch_stdout(pty)).to end_with("Sorry, parking lot is full\n")
+  end
+
   it "can unpark a car" do
     run_command(pty, "park KA-01-HH-3141 Black\n")
     run_command(pty, "leave 1\n")
