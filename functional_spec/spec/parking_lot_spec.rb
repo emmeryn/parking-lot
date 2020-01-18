@@ -116,4 +116,56 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
       end
     end
   end
+
+  describe :status do
+    before(:each) do
+      num_of_slots = 3
+      @parking_lot = AutomatedTicketingSystem::ParkingLot.new("#{num_of_slots}")
+    end
+
+    context 'with no cars parked' do
+      it 'displays correct status' do
+        expect(@parking_lot.status).to output(<<-EOTXT
+Slot No.    Registration No    Colour
+                                       EOTXT
+                                       ).to_stdout
+      end
+    end
+
+    context 'after parking cars' do
+      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      veh_colour = ['White', 'Black', 'White']
+
+      it 'displays correct status' do
+        (0..2).each do |veh_idx|
+          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+        end
+        expect(@parking_lot.status).to output(<<-EOTXT
+Slot No.    Registration No    Colour
+1           REG-NUM            White
+2           REG-NUM-2          Black
+3           REG-NUM-3          White
+                                       EOTXT
+                                       ).to_stdout
+      end
+    end
+
+    context 'after parking and unparking cars' do
+      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      veh_colour = ['White', 'Black', 'White']
+
+      it 'displays correct status' do
+        (0..2).each do |veh_idx|
+          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+        end
+        @parking_lot.leave('1')
+        expect(@parking_lot.status).to output(<<-EOTXT
+Slot No.    Registration No    Colour
+2           REG-NUM-2          Black
+3           REG-NUM-3          White
+                                       EOTXT
+                                       ).to_stdout
+      end
+    end
+  end
 end
