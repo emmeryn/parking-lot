@@ -24,7 +24,7 @@ RSpec.describe 'Parking Lot' do
     expect(fetch_stdout(pty)).to end_with("Parking lot already exists\n")
   end
 
-  it "can park a car" do
+  it "can park a car in an available slot" do
     run_command(pty, "park KA-01-HH-3141 Black\n")
     expect(fetch_stdout(pty)).to end_with("Allocated slot number: 1\n")
   end
