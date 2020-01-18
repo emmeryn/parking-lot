@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Parking Lot' do
+RSpec.describe 'Command Line Functions' do
   let(:pty) { PTY.spawn('parking_lot') }
 
   before(:each) do |test|
