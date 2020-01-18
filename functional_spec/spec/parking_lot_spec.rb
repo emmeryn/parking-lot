@@ -3,12 +3,25 @@ require 'spec_helper'
 RSpec.describe 'Parking Lot' do
   let(:pty) { PTY.spawn('parking_lot') }
 
-  before(:each) do
-    run_command(pty, "create_parking_lot 3\n")
+  before(:each) do |test|
+    run_command(pty, "create_parking_lot 3\n") unless test.metadata[:skip_parking_lot_init]
+  end
+
+  it "should fail to create a parking lot with invalid slot number", :skip_parking_lot_init do
+    run_command(pty, "create_parking_lot -3\n")
+    expect(fetch_stdout(pty)).to end_with("Invalid number of slots\n")
+
+    run_command(pty, "create_parking_lot please\n")
+    expect(fetch_stdout(pty)).to end_with("Invalid number of slots\n")
   end
 
   it "can create a parking lot", :sample => true do
     expect(fetch_stdout(pty)).to end_with("Created a parking lot with 3 slots\n")
+  end
+
+  it "should fail to create a parking lot if it already exists" do
+    run_command(pty, "create_parking_lot 4\n")
+    expect(fetch_stdout(pty)).to end_with("Parking lot already exists\n")
   end
 
   it "can park a car" do
