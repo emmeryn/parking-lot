@@ -88,5 +88,29 @@ EOTXT
     expect(fetch_stdout(pty)).to end_with("Not found\n")
   end
 
+  it "can find slot numbers for cars with colour" do
+    run_command(pty, "park KA-01-HH-1234 White\n")
+    run_command(pty, "slot_numbers_for_cars_with_colour White\n")
+    expect(fetch_stdout(pty)).to end_with("1\n")
+
+    run_command(pty, "park KA-01-HH-3141 Black\n")
+    run_command(pty, "park KA-01-HH-9999 White\n")
+    run_command(pty, "slot_numbers_for_cars_with_colour White\n")
+    expect(fetch_stdout(pty)).to end_with("1, 3\n")
+
+    run_command(pty, "leave 1\n")
+    expect(fetch_stdout(pty)).to end_with("3\n")
+  end
+
+  it "can properly fail to find slot numbers for cars with colour" do
+    run_command(pty, "park KA-01-HH-1234 White\n")
+    run_command(pty, "slot_numbers_for_cars_with_colour Black\n")
+    expect(fetch_stdout(pty)).to end_with("Not found\n")
+
+    run_command(pty, "park KA-01-HH-3141 Black\n")
+    run_command(pty, "leave 2\n")
+    expect(fetch_stdout(pty)).to end_with("Not found\n")
+  end
+
   pending "add more specs as needed"
 end
