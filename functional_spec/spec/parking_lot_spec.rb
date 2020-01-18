@@ -70,6 +70,23 @@ Slot No.    Registration No    Colour
 EOTXT
 )
   end
-  
+
+  it "can find registration numbers of all cars of a particular colour" do
+    run_command(pty, "park KA-01-HH-1234 White\n")
+    run_command(pty, "park KA-01-HH-3141 Black\n")
+    run_command(pty, "park KA-01-HH-9999 White\n")
+    run_command(pty, "registration_numbers_for_cars_with_colour White\n")
+    expect(fetch_stdout(pty)).to end_with("KA-01-HH-1234, KA-01-HH-9999\n")
+  end
+
+  it "can properly fail to find registration numbers of all cars of a particular colour" do
+    run_command(pty, "registration_numbers_for_cars_with_colour White\n")
+    expect(fetch_stdout(pty)).to end_with("Not found\n")
+
+    run_command(pty, "park KA-01-HH-3141 Black\n")
+    run_command(pty, "registration_numbers_for_cars_with_colour White\n")
+    expect(fetch_stdout(pty)).to end_with("Not found\n")
+  end
+
   pending "add more specs as needed"
 end
