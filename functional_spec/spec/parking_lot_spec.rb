@@ -38,12 +38,25 @@ RSpec.describe 'Parking Lot' do
     expect(fetch_stdout(pty)).to end_with("Sorry, parking lot is full\n")
   end
 
-  it "can unpark a car" do
+  it "can unpark a car from an occupied slot" do
     run_command(pty, "park KA-01-HH-3141 Black\n")
     run_command(pty, "leave 1\n")
     expect(fetch_stdout(pty)).to end_with("Slot number 1 is free\n")
   end
-  
+
+  it "can properly fail to unpark a car from an empty slot" do
+    run_command(pty, "leave 1\n")
+    expect(fetch_stdout(pty)).to end_with("No car in slot number 1\n")
+  end
+
+  it "can properly fail to unpark a car from an invalid slot number" do
+    run_command(pty, "leave -1\n")
+    expect(fetch_stdout(pty)).to end_with("Invalid slot number\n")
+
+    run_command(pty, "leave please\n")
+    expect(fetch_stdout(pty)).to end_with("Invalid slot number\n")
+  end
+
   it "can report status" do
     run_command(pty, "park KA-01-HH-1234 White\n")
     run_command(pty, "park KA-01-HH-3141 Black\n")
