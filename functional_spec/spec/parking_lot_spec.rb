@@ -74,4 +74,46 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
       end
     end
   end
+
+  describe :leave do
+    before(:each) do
+      num_of_slots = 3
+      @parking_lot = AutomatedTicketingSystem::ParkingLot.new("#{num_of_slots}")
+    end
+
+    context 'given valid slot number' do
+      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      veh_colour = ['White', 'Black', 'White']
+
+      it 'unparks the car in the given slot' do
+        @parking_lot.park(veh_reg_num.first, veh_colour.first)
+        @parking_lot.leave('1')
+        expect(@parking_lot.slots.first.car.nil?).to be true
+      end
+    end
+
+    context 'given slot number out of range' do
+      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      veh_colour = ['White', 'Black', 'White']
+
+      it 'fails to unpark car from given slot' do
+        expect { @parking_lot.leave('999') }
+            .to output("Invalid slot number\n").to_stdout
+
+        @parking_lot.park(veh_reg_num.first, veh_colour.first)
+        expect { @parking_lot.leave('999') }
+            .to output("Invalid slot number\n").to_stdout
+      end
+    end
+
+    context 'given invalid slot number' do
+      it 'fails to unpark car from given slot' do
+        expect { @parking_lot.leave('-1') }
+            .to output("Invalid slot number\n").to_stdout
+
+        expect { @parking_lot.leave('please') }
+            .to output("Invalid slot number\n").to_stdout
+      end
+    end
+  end
 end
