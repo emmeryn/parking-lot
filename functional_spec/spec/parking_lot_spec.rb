@@ -112,5 +112,28 @@ EOTXT
     expect(fetch_stdout(pty)).to end_with("Not found\n")
   end
 
-  pending "add more specs as needed"
+  it "can find slot number in which a car with a given registration number is parked" do
+    run_command(pty, "park KA-01-HH-1234 White\n")
+    run_command(pty, "slot_number_for_registration_number KA-01-HH-1234\n")
+    expect(fetch_stdout(pty)).to end_with("1\n")
+
+    run_command(pty, "park KA-01-HH-3141 Black\n")
+    run_command(pty, "park KA-01-HH-9999 White\n")
+    run_command(pty, "slot_number_for_registration_number KA-01-HH-1234\n")
+    expect(fetch_stdout(pty)).to end_with("1\n")
+    run_command(pty, "slot_number_for_registration_number KA-01-HH-3141\n")
+    expect(fetch_stdout(pty)).to end_with("2\n")
+    run_command(pty, "slot_number_for_registration_number KA-01-HH-9999\n")
+    expect(fetch_stdout(pty)).to end_with("3\n")
+  end
+
+  it "can properly fail to find slot number in which a car with a given registration number is parked" do
+    run_command(pty, "park KA-01-HH-1234 White\n")
+    run_command(pty, "slot_number_for_registration_number NOT-HE-RE-111\n")
+    expect(fetch_stdout(pty)).to end_with("Not found\n")
+
+    run_command(pty, "leave 1\n")
+    run_command(pty, "slot_number_for_registration_number KA-01-HH-1234\n")
+    expect(fetch_stdout(pty)).to end_with("Not found\n")
+  end
 end
