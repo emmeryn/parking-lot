@@ -9,10 +9,11 @@ module AutomatedTicketingSystem
 
       begin
         num_of_slots = Integer(num_of_slots)
-        @slots = Array.new(num_of_slots)
+        raise StandardError if num_of_slots <= 0
+        @slots = Array.new(num_of_slots) #{ Slot.new }
         puts "Created a parking lot with #{num_of_slots} slots"
       rescue StandardError
-        raise 'Invalid number of slots'
+        raise ArgumentError, 'Invalid number of slots'
       end
     end
 
