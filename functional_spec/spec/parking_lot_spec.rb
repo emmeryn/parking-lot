@@ -71,7 +71,7 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
           @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
         expect { @parking_lot.park('NEW-REG-NUM', 'New Colour') }
-            .to output("Sorry, parking lot is full\n").to_stdout
+            .to raise_error(AutomatedTicketingSystem::NoFreeSlotError)
       end
     end
   end
@@ -99,21 +99,21 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
 
       it 'fails to unpark car from given slot' do
         expect { @parking_lot.leave('999') }
-            .to output("Invalid slot number\n").to_stdout
+            .to raise_error(AutomatedTicketingSystem::InvalidSlotNumberError)
 
         @parking_lot.park(car_reg_num.first, car_colour.first)
         expect { @parking_lot.leave('999') }
-            .to output("Invalid slot number\n").to_stdout
+            .to raise_error(AutomatedTicketingSystem::InvalidSlotNumberError)
       end
     end
 
     context 'given invalid slot number' do
       it 'fails to unpark car from given slot' do
         expect { @parking_lot.leave('-1') }
-            .to output("Invalid slot number\n").to_stdout
+            .to raise_error(AutomatedTicketingSystem::InvalidSlotNumberError)
 
         expect { @parking_lot.leave('please') }
-            .to output("Invalid slot number\n").to_stdout
+            .to raise_error(AutomatedTicketingSystem::InvalidSlotNumberError)
       end
     end
   end
