@@ -168,4 +168,43 @@ Slot No.    Registration No    Colour
       end
     end
   end
+
+  describe :registration_numbers_for_cars_with_colour do
+    before(:each) do
+      num_of_slots = 3
+      @parking_lot = AutomatedTicketingSystem::ParkingLot.new("#{num_of_slots}")
+
+      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      veh_colour = ['White', 'Black', 'White']
+      (0..2).each do |veh_idx|
+        @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+      end
+    end
+
+    context 'given colour that matches parked cars' do
+      it 'displays correct registration numbers' do
+        expect(@parking_lot.registration_numbers_for_cars_with_colour('White'))
+            .to output "REG-NUM, REG-NUM-3\n"
+        expect(@parking_lot.registration_numbers_for_cars_with_colour('Black'))
+            .to output "REG-NUM-2\n"
+      end
+    end
+
+    context 'given colour that doesn\' match any parked cars' do
+      it 'displays "Not found" message' do
+        expect(@parking_lot.registration_numbers_for_cars_with_colour('Indigo'))
+            .to output "Not found\n"
+      end
+    end
+
+    context 'given colour that matched a car that has unparked' do
+      it 'displays correct registration numbers' do
+        @parking_lot.leave('1')
+        expect(@parking_lot.registration_numbers_for_cars_with_colour('White'))
+            .to output "REG-NUM-3\n"
+        expect(@parking_lot.registration_numbers_for_cars_with_colour('Black'))
+            .to output "REG-NUM-2\n"
+      end
+    end
+  end
 end
