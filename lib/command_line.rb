@@ -44,6 +44,8 @@ module AutomatedTicketingSystem
       else
         @parking_lot.run_command(command, arguments)
       end
+    rescue StandardError => e
+      puts e
     end
   end
 
