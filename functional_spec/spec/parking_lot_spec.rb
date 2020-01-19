@@ -126,10 +126,7 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
 
     context 'with no cars parked' do
       it 'displays correct status' do
-        expect(@parking_lot.status).to output(<<-EOTXT
-Slot No.    Registration No    Colour
-                                       EOTXT
-                                       ).to_stdout
+        expect{@parking_lot.status}.to output("No cars in parking lot\n").to_stdout
       end
     end
 
@@ -141,7 +138,7 @@ Slot No.    Registration No    Colour
         (0..2).each do |car_idx|
           @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
-        expect(@parking_lot.status).to output(<<-EOTXT
+        expect{@parking_lot.status}.to output(<<-EOTXT
 Slot No.    Registration No    Colour
 1           REG-NUM            White
 2           REG-NUM-2          Black
@@ -160,7 +157,7 @@ Slot No.    Registration No    Colour
           @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
         @parking_lot.leave('1')
-        expect(@parking_lot.status).to output(<<-EOTXT
+        expect{@parking_lot.status}.to output(<<-EOTXT
 Slot No.    Registration No    Colour
 2           REG-NUM-2          Black
 3           REG-NUM-3          White
@@ -184,16 +181,16 @@ Slot No.    Registration No    Colour
 
     context 'given colour that matches parked cars' do
       it 'displays correct registration numbers' do
-        expect(@parking_lot.registration_numbers_for_cars_with_colour('White'))
+        expect{@parking_lot.registration_numbers_for_cars_with_colour('White')}
             .to output("REG-NUM, REG-NUM-3\n").to_stdout
-        expect(@parking_lot.registration_numbers_for_cars_with_colour('Black'))
+        expect{@parking_lot.registration_numbers_for_cars_with_colour('Black')}
             .to output("REG-NUM-2\n").to_stdout
       end
     end
 
     context 'given colour that doesn\' match any parked cars' do
       it 'displays "Not found" message' do
-        expect(@parking_lot.registration_numbers_for_cars_with_colour('Indigo'))
+        expect{@parking_lot.registration_numbers_for_cars_with_colour('Indigo')}
             .to output("Not found\n").to_stdout
       end
     end
@@ -201,9 +198,9 @@ Slot No.    Registration No    Colour
     context 'given colour that matched a car that has unparked' do
       it 'displays correct registration numbers' do
         @parking_lot.leave('1')
-        expect(@parking_lot.registration_numbers_for_cars_with_colour('White'))
+        expect{@parking_lot.registration_numbers_for_cars_with_colour('White')}
             .to output("REG-NUM-3\n").to_stdout
-        expect(@parking_lot.registration_numbers_for_cars_with_colour('Black'))
+        expect{@parking_lot.registration_numbers_for_cars_with_colour('Black')}
             .to output("REG-NUM-2\n").to_stdout
       end
     end
@@ -223,16 +220,16 @@ Slot No.    Registration No    Colour
 
     context 'given colour that matches parked cars' do
       it 'displays correct slot numbers' do
-        expect(@parking_lot.slot_numbers_for_cars_with_colour('White'))
+        expect{@parking_lot.slot_numbers_for_cars_with_colour('White')}
             .to output("1, 3\n").to_stdout
-        expect(@parking_lot.slot_numbers_for_cars_with_colour('Black'))
+        expect{@parking_lot.slot_numbers_for_cars_with_colour('Black')}
             .to output("2\n").to_stdout
       end
     end
 
     context 'given colour that doesn\' match any parked cars' do
       it 'displays "Not found" message' do
-        expect(@parking_lot.slot_numbers_for_cars_with_colour('Indigo'))
+        expect{@parking_lot.slot_numbers_for_cars_with_colour('Indigo')}
             .to output("Not found\n").to_stdout
       end
     end
@@ -240,9 +237,9 @@ Slot No.    Registration No    Colour
     context 'given colour that matched a car that has unparked' do
       it 'displays correct slot numbers' do
         @parking_lot.leave('1')
-        expect(@parking_lot.slot_numbers_for_cars_with_colour('White'))
+        expect{@parking_lot.slot_numbers_for_cars_with_colour('White')}
             .to output("3\n").to_stdout
-        expect(@parking_lot.slot_numbers_for_cars_with_colour('Black'))
+        expect{@parking_lot.slot_numbers_for_cars_with_colour('Black')}
             .to output("2\n").to_stdout
       end
     end
@@ -261,7 +258,7 @@ Slot No.    Registration No    Colour
       it 'displays correct slot numbers' do
         (0..2).each do |car_idx|
           @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
-          expect(@parking_lot.slot_number_for_registration_number(car_reg_num[car_idx]))
+          expect{@parking_lot.slot_number_for_registration_number(car_reg_num[car_idx])}
               .to output(car_idx + 1).to_stdout
         end
       end
@@ -269,7 +266,7 @@ Slot No.    Registration No    Colour
 
     context 'given registration number that doesn\' match any parked cars' do
       it 'displays "Not found" message' do
-        expect(@parking_lot.slot_number_for_registration_number('NOT-HE-RE-111'))
+        expect{@parking_lot.slot_number_for_registration_number('NOT-HE-RE-111')}
             .to output("Not found\n").to_stdout
       end
     end
@@ -284,11 +281,11 @@ Slot No.    Registration No    Colour
         end
 
         @parking_lot.leave('1')
-        expect(@parking_lot.slot_number_for_registration_number('REG-NUM'))
+        expect{@parking_lot.slot_number_for_registration_number('REG-NUM')}
             .to output("Not found\n").to_stdout
-        expect(@parking_lot.slot_number_for_registration_number('REG-NUM-2'))
+        expect{@parking_lot.slot_number_for_registration_number('REG-NUM-2')}
             .to output("2\n").to_stdout
-        expect(@parking_lot.slot_number_for_registration_number('REG-NUM-3'))
+        expect{@parking_lot.slot_number_for_registration_number('REG-NUM-3')}
             .to output("3\n").to_stdout
       end
     end
