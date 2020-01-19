@@ -2,6 +2,7 @@ require_relative 'slot'
 require_relative 'car'
 require_relative 'errors/errors'
 require_relative 'commands/park_command'
+require_relative 'commands/leave_command'
 
 module AutomatedTicketingSystem
 
@@ -45,7 +46,7 @@ module AutomatedTicketingSystem
     end
 
     def leave(slot_num)
-
+      LeaveCommand.run(slot_num, @slots)
     end
 
     def status
