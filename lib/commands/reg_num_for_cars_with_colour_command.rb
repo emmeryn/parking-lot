@@ -1,5 +1,5 @@
 module AutomatedTicketingSystem
-  class RegNumForCarsWithColourCommand
+  class RegNumForCarsWithColourCommand < Command
     def self.run(car_colour, slots)
       reg_num_lines = []
       slots.each do |slot|

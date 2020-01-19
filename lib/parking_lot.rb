@@ -1,6 +1,7 @@
 require_relative 'slot'
 require_relative 'car'
 require_relative 'errors/errors'
+require_relative 'commands/command'
 require_relative 'commands/park_command'
 require_relative 'commands/leave_command'
 require_relative 'commands/status_command'

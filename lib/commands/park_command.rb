@@ -1,5 +1,5 @@
 module AutomatedTicketingSystem
-  class ParkCommand
+  class ParkCommand < Command
     def self.run(car, slots)
       free_slot = find_free_slot(slots)
       raise NoFreeSlotError unless free_slot

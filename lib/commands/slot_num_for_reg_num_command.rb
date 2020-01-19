@@ -1,5 +1,5 @@
 module AutomatedTicketingSystem
-  class SlotNumForRegNumCommand
+  class SlotNumForRegNumCommand < Command
     def self.run(car_reg_num, slots)
       slots.each do |slot|
         next if slot.available?

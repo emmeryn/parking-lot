@@ -1,5 +1,5 @@
 module AutomatedTicketingSystem
-  class StatusCommand
+  class StatusCommand < Command
     def self.run(slots)
       header_line = 'Slot No.    Registration No    Colour'
       data_lines = generate_status_data(slots)
