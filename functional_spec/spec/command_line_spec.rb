@@ -64,6 +64,9 @@ RSpec.describe 'Command Line Functions' do
   end
 
   it "reports status" do
+    run_command(pty, "status\n")
+    expect(fetch_stdout(pty)).to end_with("No cars in parking lot\n")
+
     run_command(pty, "park KA-01-HH-1234 White\n")
     run_command(pty, "park KA-01-HH-3141 Black\n")
     run_command(pty, "park KA-01-HH-9999 White\n")

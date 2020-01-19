@@ -3,6 +3,7 @@ require_relative 'car'
 require_relative 'errors/errors'
 require_relative 'commands/park_command'
 require_relative 'commands/leave_command'
+require_relative 'commands/status_command'
 
 module AutomatedTicketingSystem
 
@@ -50,7 +51,7 @@ module AutomatedTicketingSystem
     end
 
     def status
-
+      StatusCommand.run(@slots)
     end
 
     def registration_numbers_for_cars_with_colour(car_colour)
