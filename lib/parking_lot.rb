@@ -1,5 +1,7 @@
 require_relative 'slot'
+require_relative 'car'
 require_relative 'errors/errors'
+require_relative 'commands/park_command'
 
 module AutomatedTicketingSystem
 
@@ -40,7 +42,8 @@ module AutomatedTicketingSystem
     end
 
     def park(car_reg_num, car_colour)
-
+      car = Car.new(car_reg_num, car_colour)
+      ParkCommand.run(car, @slots)
     end
 
     def leave(slot_num)

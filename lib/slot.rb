@@ -1,4 +1,4 @@
-require_relative '../lib/car'
+require_relative 'errors/errors'
 
 module AutomatedTicketingSystem
 
@@ -8,7 +8,21 @@ module AutomatedTicketingSystem
     def initialize(id)
       @id = Integer(id)
     rescue StandardError
-      raise ArgumentError, 'Invalid slot number'
+      raise InvalidSlotNumberError
+    end
+
+    def park(car)
+      raise ExistingCarInSlotError unless @car.nil?
+      @car = car
+    end
+
+    def unpark
+      raise SlotAlreadyEmptyError.new(nil, id) if @car.nil?
+      @car = nil
+    end
+
+    def available?
+      @car.nil?
     end
   end
 
