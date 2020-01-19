@@ -24,6 +24,10 @@ module AutomatedTicketingSystem
     def available?
       @car.nil?
     end
+
+    def occupied?
+      !available?
+    end
   end
 
 end

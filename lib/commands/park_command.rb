@@ -1,6 +1,10 @@
+require_relative '../car'
+
 module AutomatedTicketingSystem
   class ParkCommand < Command
-    def self.run(car, slots)
+    def self.run(slots, car_reg_num, car_colour)
+      car = Car.new(car_reg_num, car_colour)
+
       free_slot = find_free_slot(slots)
       raise NoFreeSlotError unless free_slot
       free_slot.park(car)

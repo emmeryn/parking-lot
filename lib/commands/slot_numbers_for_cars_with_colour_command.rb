@@ -1,6 +1,6 @@
 module AutomatedTicketingSystem
-  class SlotNumForCarsWithColourCommand < Command
-    def self.run(car_colour, slots)
+  class SlotNumbersForCarsWithColourCommand < Command
+    def self.run(slots, car_colour)
       slot_num_lines = []
       slots.each do |slot|
         next if slot.available?

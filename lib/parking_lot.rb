@@ -5,14 +5,13 @@ require_relative 'commands/command'
 require_relative 'commands/park_command'
 require_relative 'commands/leave_command'
 require_relative 'commands/status_command'
-require_relative 'commands/reg_num_for_cars_with_colour_command'
-require_relative 'commands/slot_num_for_cars_with_colour_command'
-require_relative 'commands/slot_num_for_reg_num_command'
+require_relative 'commands/registration_numbers_for_cars_with_colour_command'
+require_relative 'commands/slot_numbers_for_cars_with_colour_command'
+require_relative 'commands/slot_number_for_registration_number_command'
 
 module AutomatedTicketingSystem
 
   class ParkingLot
-
     attr_accessor :slots
 
     def initialize(num_of_slots)
@@ -30,7 +29,7 @@ module AutomatedTicketingSystem
       end
     end
 
-    def run_command(command, arguments)
+    def run_command(command, arguments = nil)
       valid_commands = ['park',
                         'leave',
                         'status',
@@ -39,42 +38,20 @@ module AutomatedTicketingSystem
                         'slot_number_for_registration_number']
 
       if valid_commands.include? command
-        public_send(command, *arguments)
+        module_klass = Object.const_get(AutomatedTicketingSystem.name)
+        command_klass = "#{module_klass}::#{camelize("#{command}_command")}"
+        command_message = Object.const_get(command_klass)
+                                .public_send('run', @slots, *arguments)
+        puts command_message
       else
         puts 'Unrecognised command'
       end
     end
 
-    def park(car_reg_num, car_colour)
-      car = Car.new(car_reg_num, car_colour)
-      command_message = ParkCommand.run(car, @slots)
-      puts command_message
-    end
+    private
 
-    def leave(slot_num)
-      command_message = LeaveCommand.run(slot_num, @slots)
-      puts command_message
-    end
-
-    def status
-      command_message = StatusCommand.run(@slots)
-      puts command_message
-    end
-
-    def registration_numbers_for_cars_with_colour(car_colour)
-      command_message = RegNumForCarsWithColourCommand.run(car_colour, @slots)
-      puts command_message
-    end
-
-    def slot_numbers_for_cars_with_colour(car_colour)
-      command_message = SlotNumForCarsWithColourCommand.run(car_colour, @slots)
-      puts command_message
-    end
-
-    def slot_number_for_registration_number(car_reg_num)
-      command_message = SlotNumForRegNumCommand.run(car_reg_num, @slots)
-      puts command_message
+    def camelize(str)
+      str.split('_').map(&:capitalize).join
     end
   end
-
 end
