@@ -15,14 +15,12 @@ module AutomatedTicketingSystem
       @slots = []
 
       begin
-        num_of_slots = Integer(num_of_slots)
+        num_of_slots = num_of_slots.to_i
         raise InvalidNumberOfSlotsError if num_of_slots <= 0
 
         @slots = Array.new(num_of_slots)
         @slots.fill { |idx| Slot.new((idx + 1).to_s) }
         puts "Created a parking lot with #{num_of_slots} slots"
-      rescue ArgumentError
-        raise InvalidNumberOfSlotsError
       end
     end
 
