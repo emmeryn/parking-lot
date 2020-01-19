@@ -108,6 +108,7 @@ EOTXT
     expect(fetch_stdout(pty)).to end_with("1, 3\n")
 
     run_command(pty, "leave 1\n")
+    run_command(pty, "slot_numbers_for_cars_with_colour White\n")
     expect(fetch_stdout(pty)).to end_with("3\n")
   end
 
@@ -118,6 +119,7 @@ EOTXT
 
     run_command(pty, "park KA-01-HH-3141 Black\n")
     run_command(pty, "leave 2\n")
+    run_command(pty, "slot_numbers_for_cars_with_colour Black\n")
     expect(fetch_stdout(pty)).to end_with("Not found\n")
   end
 

@@ -5,6 +5,7 @@ require_relative 'commands/park_command'
 require_relative 'commands/leave_command'
 require_relative 'commands/status_command'
 require_relative 'commands/reg_num_for_cars_with_colour_command'
+require_relative 'commands/slot_num_for_cars_with_colour_command'
 
 module AutomatedTicketingSystem
 
@@ -60,7 +61,7 @@ module AutomatedTicketingSystem
     end
 
     def slot_numbers_for_cars_with_colour(car_colour)
-
+      SlotNumForCarsWithColourCommand.run(car_colour, @slots)
     end
 
     def slot_number_for_registration_number(car_reg_num)
