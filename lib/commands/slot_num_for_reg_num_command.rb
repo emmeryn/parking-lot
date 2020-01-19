@@ -3,12 +3,9 @@ module AutomatedTicketingSystem
     def self.run(car_reg_num, slots)
       slots.each do |slot|
         next if slot.available?
-        if slot.car.reg_num == car_reg_num
-          puts slot.id
-          return
-        end
+        return slot.id if slot.car.reg_num == car_reg_num
       end
-      puts 'Not found'
+      'Not found'
     end
   end
 end

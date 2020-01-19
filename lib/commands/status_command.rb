@@ -4,13 +4,10 @@ module AutomatedTicketingSystem
       header_line = 'Slot No.    Registration No    Colour'
       data_lines = generate_status_data(slots)
       if data_lines.empty?
-        puts 'No cars in parking lot'
+        'No cars in parking lot'
       else
         output_lines = [header_line].concat(data_lines)
-
-        output_lines.each do |line|
-          puts line
-        end
+        output_lines.join("\n")
       end
     end
 

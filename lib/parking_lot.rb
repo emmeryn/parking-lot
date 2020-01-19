@@ -47,27 +47,33 @@ module AutomatedTicketingSystem
 
     def park(car_reg_num, car_colour)
       car = Car.new(car_reg_num, car_colour)
-      ParkCommand.run(car, @slots)
+      command_message = ParkCommand.run(car, @slots)
+      puts command_message
     end
 
     def leave(slot_num)
-      LeaveCommand.run(slot_num, @slots)
+      command_message = LeaveCommand.run(slot_num, @slots)
+      puts command_message
     end
 
     def status
-      StatusCommand.run(@slots)
+      command_message = StatusCommand.run(@slots)
+      puts command_message
     end
 
     def registration_numbers_for_cars_with_colour(car_colour)
-      RegNumForCarsWithColourCommand.run(car_colour, @slots)
+      command_message = RegNumForCarsWithColourCommand.run(car_colour, @slots)
+      puts command_message
     end
 
     def slot_numbers_for_cars_with_colour(car_colour)
-      SlotNumForCarsWithColourCommand.run(car_colour, @slots)
+      command_message = SlotNumForCarsWithColourCommand.run(car_colour, @slots)
+      puts command_message
     end
 
     def slot_number_for_registration_number(car_reg_num)
-      SlotNumForRegNumCommand.run(car_reg_num, @slots)
+      command_message = SlotNumForRegNumCommand.run(car_reg_num, @slots)
+      puts command_message
     end
   end
 

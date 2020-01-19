@@ -6,7 +6,7 @@ module AutomatedTicketingSystem
 
       slot = slots.find { |s| s.id == slot_num }
       slot.unpark
-      puts "Slot number #{slot_num} is free"
+      "Slot number #{slot_num} is free"
     end
   end
 end

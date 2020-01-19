@@ -6,10 +6,11 @@ module AutomatedTicketingSystem
         next if slot.available?
         slot_num_lines.push(slot.id) if slot.car.colour == car_colour
       end
+
       if slot_num_lines.empty?
-        puts 'Not found'
+        'Not found'
       else
-        puts slot_num_lines.join(', ')
+        slot_num_lines.join(', ')
       end
     end
   end
