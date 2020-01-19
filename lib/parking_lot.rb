@@ -1,4 +1,5 @@
-require_relative '../lib/slot'
+require_relative 'slot'
+require_relative 'errors/errors'
 
 module AutomatedTicketingSystem
 
@@ -7,17 +8,19 @@ module AutomatedTicketingSystem
     attr_accessor :slots
 
     def initialize(num_of_slots)
+      raise InvalidNumberOfSlotsError if num_of_slots.nil?
+
       @slots = []
 
       begin
         num_of_slots = Integer(num_of_slots)
-        raise StandardError if num_of_slots <= 0
+        raise InvalidNumberOfSlotsError if num_of_slots <= 0
 
         @slots = Array.new(num_of_slots)
         @slots.fill { |idx| Slot.new((idx + 1).to_s) }
         puts "Created a parking lot with #{num_of_slots} slots"
-      rescue StandardError
-        raise ArgumentError, 'Invalid number of slots'
+      rescue ArgumentError
+        raise InvalidNumberOfSlotsError
       end
     end
 

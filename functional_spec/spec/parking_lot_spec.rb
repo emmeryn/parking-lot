@@ -1,5 +1,6 @@
 require 'spec_helper'
 require_relative '../../lib/parking_lot'
+require_relative '../../lib/errors/errors'
 
 RSpec.describe AutomatedTicketingSystem::ParkingLot do
   describe :initialize do
@@ -15,13 +16,13 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
     context 'given invalid arguments' do
       it 'raise an error' do
         expect { AutomatedTicketingSystem::ParkingLot.new(nil) }
-            .to raise_error(ArgumentError)
+            .to raise_error(AutomatedTicketingSystem::InvalidNumberOfSlotsError)
         expect { AutomatedTicketingSystem::ParkingLot.new('nope') }
-            .to raise_error(ArgumentError)
+            .to raise_error(AutomatedTicketingSystem::InvalidNumberOfSlotsError)
         expect { AutomatedTicketingSystem::ParkingLot.new('0') }
-            .to raise_error(ArgumentError)
+            .to raise_error(AutomatedTicketingSystem::InvalidNumberOfSlotsError)
         expect { AutomatedTicketingSystem::ParkingLot.new('-3') }
-            .to raise_error(ArgumentError)
+            .to raise_error(AutomatedTicketingSystem::InvalidNumberOfSlotsError)
       end
     end
   end
