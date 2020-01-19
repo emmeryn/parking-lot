@@ -259,7 +259,7 @@ Slot No.    Registration No    Colour
         (0..2).each do |car_idx|
           @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
           expect{@parking_lot.slot_number_for_registration_number(car_reg_num[car_idx])}
-              .to output(car_idx + 1).to_stdout
+              .to output("#{car_idx + 1}\n").to_stdout
         end
       end
     end
