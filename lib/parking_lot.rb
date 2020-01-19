@@ -36,7 +36,7 @@ module AutomatedTicketingSystem
       end
     end
 
-    def park(veh_reg_num, veh_colour)
+    def park(car_reg_num, car_colour)
 
     end
 
@@ -48,15 +48,15 @@ module AutomatedTicketingSystem
 
     end
 
-    def registration_numbers_for_cars_with_colour(veh_colour)
+    def registration_numbers_for_cars_with_colour(car_colour)
 
     end
 
-    def slot_numbers_for_cars_with_colour(veh_colour)
+    def slot_numbers_for_cars_with_colour(car_colour)
 
     end
 
-    def slot_number_for_registration_number(veh_reg_num)
+    def slot_number_for_registration_number(car_reg_num)
 
     end
   end

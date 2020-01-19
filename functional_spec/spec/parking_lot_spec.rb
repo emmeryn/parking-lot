@@ -33,26 +33,26 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
     end
 
     context 'given valid arguments and available capacity' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'parks the car in the slot nearest to entry' do
-        @parking_lot.park(veh_reg_num.first, veh_colour.first)
-        expect(@parking_lot.slots.first.car.reg_num).to eql(veh_reg_num.first)
-        expect(@parking_lot.slots.first.car.colour).to eql(veh_colour.first)
+        @parking_lot.park(car_reg_num.first, car_colour.first)
+        expect(@parking_lot.slots.first.car.reg_num).to eql(car_reg_num.first)
+        expect(@parking_lot.slots.first.car.colour).to eql(car_colour.first)
       end
 
       it 'parks multiple cars' do
-        (0..2).each do |veh_idx|
-          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
-          expect(@parking_lot.slots[veh_idx].car.reg_num).to eql(veh_reg_num[veh_idx])
-          expect(@parking_lot.slots[veh_idx].car.colour).to eql(veh_colour[veh_idx])
+        (0..2).each do |car_idx|
+          @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
+          expect(@parking_lot.slots[car_idx].car.reg_num).to eql(car_reg_num[car_idx])
+          expect(@parking_lot.slots[car_idx].car.colour).to eql(car_colour[car_idx])
         end
       end
 
       it 'parks a car in the nearest free slot after a car leaves' do
-        (0..2).each do |veh_idx|
-          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+        (0..2).each do |car_idx|
+          @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
         @parking_lot.leave('1')
         @parking_lot.park('NEW-REG-NUM', 'New Colour')
@@ -62,12 +62,12 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
     end
 
     context 'given valid arguments but unavailable capacity' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'fails to park the car' do
-        (0..2).each do |veh_idx|
-          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+        (0..2).each do |car_idx|
+          @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
         expect { @parking_lot.park('NEW-REG-NUM', 'New Colour') }
             .to output("Sorry, parking lot is full\n").to_stdout
@@ -82,25 +82,25 @@ RSpec.describe AutomatedTicketingSystem::ParkingLot do
     end
 
     context 'given valid slot number' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'unparks the car in the given slot' do
-        @parking_lot.park(veh_reg_num.first, veh_colour.first)
+        @parking_lot.park(car_reg_num.first, car_colour.first)
         @parking_lot.leave('1')
         expect(@parking_lot.slots.first.car.nil?).to be true
       end
     end
 
     context 'given slot number out of range' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'fails to unpark car from given slot' do
         expect { @parking_lot.leave('999') }
             .to output("Invalid slot number\n").to_stdout
 
-        @parking_lot.park(veh_reg_num.first, veh_colour.first)
+        @parking_lot.park(car_reg_num.first, car_colour.first)
         expect { @parking_lot.leave('999') }
             .to output("Invalid slot number\n").to_stdout
       end
@@ -133,12 +133,12 @@ Slot No.    Registration No    Colour
     end
 
     context 'after parking cars' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'displays correct status' do
-        (0..2).each do |veh_idx|
-          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+        (0..2).each do |car_idx|
+          @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
         expect(@parking_lot.status).to output(<<-EOTXT
 Slot No.    Registration No    Colour
@@ -151,12 +151,12 @@ Slot No.    Registration No    Colour
     end
 
     context 'after parking and unparking cars' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'displays correct status' do
-        (0..2).each do |veh_idx|
-          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+        (0..2).each do |car_idx|
+          @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
         @parking_lot.leave('1')
         expect(@parking_lot.status).to output(<<-EOTXT
@@ -174,10 +174,10 @@ Slot No.    Registration No    Colour
       num_of_slots = 3
       @parking_lot = AutomatedTicketingSystem::ParkingLot.new("#{num_of_slots}")
 
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
-      (0..2).each do |veh_idx|
-        @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
+      (0..2).each do |car_idx|
+        @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
       end
     end
 
@@ -213,10 +213,10 @@ Slot No.    Registration No    Colour
       num_of_slots = 3
       @parking_lot = AutomatedTicketingSystem::ParkingLot.new("#{num_of_slots}")
 
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
-      (0..2).each do |veh_idx|
-        @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
+      (0..2).each do |car_idx|
+        @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
       end
     end
 
@@ -254,14 +254,14 @@ Slot No.    Registration No    Colour
     end
 
     context 'given registration number that matches parked cars' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'displays correct slot numbers' do
-        (0..2).each do |veh_idx|
-          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
-          expect(@parking_lot.slot_number_for_registration_number(veh_reg_num[veh_idx]))
-              .to output(veh_idx + 1).to_stdout
+        (0..2).each do |car_idx|
+          @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
+          expect(@parking_lot.slot_number_for_registration_number(car_reg_num[car_idx]))
+              .to output(car_idx + 1).to_stdout
         end
       end
     end
@@ -274,12 +274,12 @@ Slot No.    Registration No    Colour
     end
 
     context 'given registration number that matched a car that has unparked' do
-      veh_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
-      veh_colour = ['White', 'Black', 'White']
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
 
       it 'displays correct slot numbers' do
-        (0..2).each do |veh_idx|
-          @parking_lot.park(veh_reg_num[veh_idx], veh_colour[veh_idx])
+        (0..2).each do |car_idx|
+          @parking_lot.park(car_reg_num[car_idx], car_colour[car_idx])
         end
 
         @parking_lot.leave('1')
