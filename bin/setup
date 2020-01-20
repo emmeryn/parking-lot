@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Add script to:
 # * Install dependencies
 # * Build/Compile
@@ -5,3 +7,9 @@
 #
 # After this is run, bin/parking_lot
 # should Just Work.
+
+echo 'Parking Lot: Running tests'
+my_dir="$(dirname "$0")"
+"$my_dir/run_functional_tests"
+
+echo 'Parking Lot: Setup complete'
