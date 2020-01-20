@@ -1,7 +1,9 @@
 # Parking Lot
-Solution attempted by Sue Zheng Hao.
+Solution attempted by Sue Zheng Hao for Gojek take-home test.
 
-# Introduction
+## Setup
+Install [Ruby](https://www.ruby-lang.org/en/documentation/installation/) if it is not already installed. Then run `./bin/setup` to setup and run the test suite.  
+If there are any problems, please check the [Known Issues](#known-issues).
 
 ## Commands
 
@@ -64,3 +66,22 @@ Failure Response: `Not found`
 
 ### Exit the program
 Input: `exit`
+
+## Design Assumptions
+- Car registration number & colour do not contain spaces
+- Car registration number is case insensitive (e.g. 'ka-01' == 'KA-01')
+- Car registration number has a max length of 18 characters (following given status output format)
+
+## Possible Improvements
+- The 3 find commands can be sped up by implementing a hashmap keyed by the car colour/registration number. Currently, they retrieve the result in linear time by checking every slot.
+- The `park` command tries to park the car in the nearest free slot as defined in the question. Allowing the user to specify an alternative strategy may be useful.
+
+## Known Issues
+The test suite may fail on systems that use rbenv with an error like this:
+`rbenv: bundle: command not found`.  
+If you use rbenv, please run the following commands first:
+```shell
+cd functional_spec
+rbenv versions
+rbenv local <ruby version available in rbenv>
+```
