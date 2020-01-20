@@ -1,4 +1,4 @@
-require_relative '../car'
+require_relative '../models/car'
 
 module AutomatedTicketingSystem
   class ParkCommand < Command

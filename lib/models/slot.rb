@@ -1,4 +1,4 @@
-require_relative 'errors/errors'
+require_relative '../errors/errors'
 
 module AutomatedTicketingSystem
 

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../../lib/parking_lot'
+require_relative '../../lib/models/parking_lot'
 require_relative '../../lib/errors/errors'
 
 RSpec.describe AutomatedTicketingSystem::ParkingLot do

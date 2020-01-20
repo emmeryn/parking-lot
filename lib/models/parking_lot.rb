@@ -1,13 +1,13 @@
 require_relative 'slot'
 require_relative 'car'
-require_relative 'errors/errors'
-require_relative 'commands/command'
-require_relative 'commands/park_command'
-require_relative 'commands/leave_command'
-require_relative 'commands/status_command'
-require_relative 'commands/registration_numbers_for_cars_with_colour_command'
-require_relative 'commands/slot_numbers_for_cars_with_colour_command'
-require_relative 'commands/slot_number_for_registration_number_command'
+require_relative '../errors/errors'
+require_relative '../commands/command'
+require_relative '../commands/park_command'
+require_relative '../commands/leave_command'
+require_relative '../commands/status_command'
+require_relative '../commands/registration_numbers_for_cars_with_colour_command'
+require_relative '../commands/slot_numbers_for_cars_with_colour_command'
+require_relative '../commands/slot_number_for_registration_number_command'
 
 module AutomatedTicketingSystem
 

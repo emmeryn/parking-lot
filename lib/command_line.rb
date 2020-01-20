@@ -1,4 +1,4 @@
-require_relative 'parking_lot'
+require_relative 'models/parking_lot'
 
 module AutomatedTicketingSystem
 
