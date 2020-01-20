@@ -88,6 +88,14 @@ EOTXT
     expect(fetch_stdout(pty)).to end_with("KA-01-HH-1234, KA-01-HH-9999\n")
   end
 
+  it "finds registration numbers of all cars of a particular colour case-insensitively" do
+    run_command(pty, "park KA-01-HH-1234 WhitE\n")
+    run_command(pty, "park KA-01-HH-3141 Black\n")
+    run_command(pty, "park KA-01-HH-9999 WhIte\n")
+    run_command(pty, "registration_numbers_for_cars_with_colour WHITE\n")
+    expect(fetch_stdout(pty)).to end_with("KA-01-HH-1234, KA-01-HH-9999\n")
+  end
+
   it "fails to find registration numbers of all cars of a particular colour" do
     run_command(pty, "registration_numbers_for_cars_with_colour White\n")
     expect(fetch_stdout(pty)).to end_with("Not found\n")
@@ -110,6 +118,12 @@ EOTXT
     run_command(pty, "leave 1\n")
     run_command(pty, "slot_numbers_for_cars_with_colour White\n")
     expect(fetch_stdout(pty)).to end_with("3\n")
+  end
+
+  it "finds slot numbers for cars with colour case-insensitively" do
+    run_command(pty, "park KA-01-HH-1234 WhitE\n")
+    run_command(pty, "slot_numbers_for_cars_with_colour WHITE\n")
+    expect(fetch_stdout(pty)).to end_with("1\n")
   end
 
   it "fails to find slot numbers for cars with colour" do
@@ -136,6 +150,12 @@ EOTXT
     expect(fetch_stdout(pty)).to end_with("2\n")
     run_command(pty, "slot_number_for_registration_number KA-01-HH-9999\n")
     expect(fetch_stdout(pty)).to end_with("3\n")
+  end
+
+  it "finds slot number in which a car with a given registration number is parked case-insensitively" do
+    run_command(pty, "park KA-01-HH-1234 White\n")
+    run_command(pty, "slot_number_for_registration_number ka-01-HH-1234\n")
+    expect(fetch_stdout(pty)).to end_with("1\n")
   end
 
   it "fails to find slot number in which a car with a given registration number is parked" do

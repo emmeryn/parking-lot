@@ -4,7 +4,7 @@ module AutomatedTicketingSystem
       slot_num_lines = []
       slots.each do |slot|
         next if slot.available?
-        slot_num_lines.push(slot.id) if slot.car.colour == car_colour
+        slot_num_lines.push(slot.id) if slot.car.colour.casecmp?(car_colour)
       end
 
       if slot_num_lines.empty?

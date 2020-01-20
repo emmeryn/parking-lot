@@ -188,6 +188,15 @@ Slot No.    Registration No    Colour
       end
     end
 
+    context 'given colour that matches parked cars case-insensitively' do
+      it 'displays correct registration numbers' do
+        expect{@parking_lot.run_command('registration_numbers_for_cars_with_colour', 'WHITE')}
+            .to output("REG-NUM, REG-NUM-3\n").to_stdout
+        expect{@parking_lot.run_command('registration_numbers_for_cars_with_colour', 'BLACK')}
+            .to output("REG-NUM-2\n").to_stdout
+      end
+    end
+
     context 'given colour that doesn\' match any parked cars' do
       it 'displays "Not found" message' do
         expect{@parking_lot.run_command('registration_numbers_for_cars_with_colour', 'Indigo')}
@@ -225,6 +234,15 @@ Slot No.    Registration No    Colour
         expect{@parking_lot.run_command('slot_numbers_for_cars_with_colour', 'Black')}
             .to output("2\n").to_stdout
       end
+      end
+
+    context 'given colour that matches parked cars case-insensitively' do
+      it 'displays correct slot numbers' do
+        expect{@parking_lot.run_command('slot_numbers_for_cars_with_colour', 'WHITE')}
+            .to output("1, 3\n").to_stdout
+        expect{@parking_lot.run_command('slot_numbers_for_cars_with_colour', 'BLACK')}
+            .to output("2\n").to_stdout
+      end
     end
 
     context 'given colour that doesn\' match any parked cars' do
@@ -259,6 +277,19 @@ Slot No.    Registration No    Colour
         (0..2).each do |car_idx|
           @parking_lot.run_command('park', [car_reg_num[car_idx], car_colour[car_idx]])
           expect{@parking_lot.run_command('slot_number_for_registration_number', car_reg_num[car_idx])}
+              .to output("#{car_idx + 1}\n").to_stdout
+        end
+      end
+    end
+
+    context 'given registration number that matches parked cars case-insensitively' do
+      car_reg_num = ['REG-NUM', 'REG-NUM-2', 'REG-NUM-3']
+      car_colour = ['White', 'Black', 'White']
+
+      it 'displays correct slot numbers' do
+        (0..2).each do |car_idx|
+          @parking_lot.run_command('park', [car_reg_num[car_idx], car_colour[car_idx]])
+          expect{@parking_lot.run_command('slot_number_for_registration_number', car_reg_num[car_idx].downcase)}
               .to output("#{car_idx + 1}\n").to_stdout
         end
       end
